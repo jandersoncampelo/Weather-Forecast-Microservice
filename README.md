@@ -18,14 +18,14 @@ Desenvolver uma solução Microservices que permite cadastrar e consultar previs
 ![WeatherForecastMicroservice drawio](https://user-images.githubusercontent.com/6729346/167316019-87280017-cfc7-482d-8684-47d9d8ce57e5.png)
 
 ## TO-DO
-[X] Criar Microsserviço que se comunicará com o Open Weather
-[X] Fazer a comunicação entre APIs via RestSharp
-[X] Criar o Microsserviço que vai persisir os dados no Banco
-[X] Comunicar com o banco MongoDB
-[X] Orquestrar Container com o Microsserviço e Banco
-[ ] Fazer comunicação entre os Microsserviços via RabbitMQ
-[ ] Adicionar Microsserviço 2 e o RabbitMQ ao Container
-[ ] Refatorar
+- [X] Criar Microsserviço que se comunicará com o Open Weather
+- [X] Fazer a comunicação entre APIs via RestSharp
+- [X] Criar o Microsserviço que vai persisir os dados no Banco
+- [X] Comunicar com o banco MongoDB
+- [X] Orquestrar Container com o Microsserviço e Banco
+- [ ] Fazer comunicação entre os Microsserviços via RabbitMQ
+- [ ] Adicionar Microsserviço 2 e o RabbitMQ ao Container
+- [ ] Refatorar
 
 ## Skills Necessárias
 - Arquitetura de Microsserviços
