@@ -5,10 +5,11 @@ Desenvolver uma solução Microservices que permite cadastrar e consultar previs
 ![image](https://user-images.githubusercontent.com/6729346/167315861-89364c2b-41ed-4521-9715-b71906552b2f.png)
 
 ## Especificações
-**Microservice1** - 
+**Microservice1** 
  - Responsável por expor API Rest para cadastrar previsão do tempo 
  - Deve produzir uma mensagem para o broker requisitando a operação de Consulta de Previsão  de Tempo. 
  - Deve escutar a resposta do broker com a previsão de tempo e armazenar em um Banco de  Dados 
+
 **Microservice2** 
  - Responsável por integrar com API [Open Weather](http://openweathermap.org/api)
  - Deve se registrar no broker para escutar mensagens de Consulta de Previsão de Tempo 
