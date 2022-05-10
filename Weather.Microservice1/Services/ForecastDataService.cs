@@ -12,7 +12,7 @@
 
         public void ProcessWeatherForecast()
         {
-            _messageBusService.Publish(QUEUE_NAME, "");
+            //_messageBusService.Publish(QUEUE_NAME, "");
         }
     }
 }

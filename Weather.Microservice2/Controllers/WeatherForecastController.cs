@@ -16,11 +16,11 @@ namespace Wheater.Microservice2.Controllers
             _weatherForecastService = weatherForecastService;
         }
 
-        [HttpGet]
+/*        [HttpGet]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public async Task<ActionResult<string>> Get()
         {
             return Ok(await _weatherForecastService.GetForecast());
-        }
+        }*/
     }
 }
