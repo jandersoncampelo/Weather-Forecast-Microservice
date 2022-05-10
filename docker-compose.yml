@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  weather.microservice1:
+    image: ${DOCKER_REGISTRY-}weathermicroservice1
+    build:
+      context: .
+      dockerfile: Weather.Microservice1/Dockerfile
+
+  weather.microservice2:
+    image: ${DOCKER_REGISTRY-}weathermicroservice2
+    build:
+      context: .
+      dockerfile: Weather.Microservice2/Dockerfile
+
+  broker-local:
+    image: rabbitmq:3.9-management
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mensageria
+
+  catalogdb:
+    image: mongo:4.4.6
+    restart: always
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:
+
+networks: 
+    mensageria:
+      driver: bridge
