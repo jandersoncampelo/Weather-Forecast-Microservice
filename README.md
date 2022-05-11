@@ -1,4 +1,25 @@
 # Weather-Forecast-Microservice
+## Rodando a Aplicação
+### Requisitos
+- .NET 5
+- Docker
+### Executando
+Os comandos abaixo iram subir um serviço de mensageria RabbitMQ e um Banco de Dados MongoDB:
+```
+docker run -it --rm -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
+```
+```
+docker run -it --rm -d --name forecastdb -p 27017:27017 mongo:4.4.6
+```
+Após o clone do repositório, execute na raiz do projeto execute o seguinte comando:
+```
+dotnet run --project .\Weather.Microservice1\
+```
+Em um outro terminal execute o comando abaixo:
+```
+dotnet run --project .\Weather.Microservice2\
+```
+
 ## Objetivos
 Desenvolver uma solução Microservices que permite cadastrar e consultar previsão do tempo.  
 
