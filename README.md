@@ -19,7 +19,18 @@ Em um outro terminal execute o comando abaixo:
 ```
 dotnet run --project .\Weather.Microservice2\
 ```
+### Exemplo de Uso
+Os testes podem ser feitos via swagger pelo link abaixo:
+https://localhost:5001/swagger/index.html
 
+Uma chamada post no endpoint abaixo solicita o clima de Cascavel:
+```
+https://localhost:5001/api/ForecastData?cityName=Cascavel
+```
+Uma chamada get no endpoint abaixo lista as informações armazenadas no banco:
+```
+https://localhost:5001/api/ForecastData
+```
 ## Objetivos
 Desenvolver uma solução Microservices que permite cadastrar e consultar previsão do tempo.  
 
@@ -43,9 +54,9 @@ Desenvolver uma solução Microservices que permite cadastrar e consultar previs
 - [X] Fazer a comunicação entre APIs via RestSharp
 - [X] Criar o Microsserviço que vai persisir os dados no Banco
 - [X] Comunicar com o banco MongoDB
-- [X] Orquestrar Container com o Microsserviço e Banco
-- [ ] Fazer comunicação entre os Microsserviços via RabbitMQ
-- [ ] Adicionar Microsserviço 2 e o RabbitMQ ao Container
+- [ ] ~Orquestrar Container com o Microsserviço e Banco~
+- [X] Fazer comunicação entre os Microsserviços via RabbitMQ
+- [ ] ~Adicionar Microsserviço 2 e o RabbitMQ ao Container~
 - [ ] Refatorar
 
 ## Skills Necessárias
