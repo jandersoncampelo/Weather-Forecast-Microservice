@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Weather.Microservice1.Entities;
 using Weather.Microservice1.Repositories;
@@ -11,6 +13,7 @@ namespace Weather.Microservice1.Controllers
     [ApiController]
     public class ForecastDataController : ControllerBase
     {
+        private const string QUEUE_NAME = "ForecastRequest";
         private readonly IForecastDataRepository _repository;
 
         public ForecastDataController(IForecastDataRepository repository)
@@ -18,39 +21,44 @@ namespace Weather.Microservice1.Controllers
             _repository = repository;
         }
 
+        [HttpPost]
+        public IActionResult Post([FromServices] RabbitMQConfigurations configurations, string cityName)
+        {
+            var factory = new ConnectionFactory()
+            {
+                HostName = configurations.HostName,
+                Port = configurations.Port,
+                UserName = configurations.UserName,
+                Password = configurations.Password
+            };
+
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.QueueDeclare(queue: QUEUE_NAME,
+                                        durable: false,
+                                        exclusive: false,
+                                        autoDelete: false,
+                                        arguments: null);
+
+                var message = new { City = cityName };
+                var messageJSON = JsonSerializer.Serialize(message);
+                var body = Encoding.UTF8.GetBytes(messageJSON);
+
+                channel.BasicPublish(exchange: "",
+                                        routingKey: QUEUE_NAME,
+                                        basicProperties: null,
+                                        body: body);
+            }
+
+            return Ok("Mensagem encaminhada com sucesso");
+        }
+
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ForecastData>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<ForecastData>>> GetForecasts()
+        public async Task<ActionResult<IEnumerable<ForecastData>>> GetAll()
         {
             var forecasts = await _repository.GetForecasts();
             return Ok(forecasts);
         }
-
-        [HttpGet("{id:length(24)}", Name = "GetForecast")]
-        [ProducesResponseType(typeof(ForecastData), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ForecastData>> GetForecastById(string id)
-        {
-            var forecast = await _repository.GetForecast(id);
-            if (forecast is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(forecast);
-        }
-
-        [HttpPost]
-        [ProducesResponseType(typeof(ForecastData), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ForecastData>> CreateForecast([FromBody] ForecastData forecast)
-        {
-            if (forecast is null)
-                return BadRequest("Invalid Data");
-            await _repository.CreateForecast(forecast);
-
-            return CreatedAtRoute("GetForecast", new { id = forecast.Id }, forecast);
-        }
-
     }
 }

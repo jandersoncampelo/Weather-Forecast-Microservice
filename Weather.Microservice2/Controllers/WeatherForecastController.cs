@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using Wheater.Microservice2.Services;
 
@@ -16,11 +19,11 @@ namespace Wheater.Microservice2.Controllers
             _weatherForecastService = weatherForecastService;
         }
 
-/*        [HttpGet]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<ActionResult<string>> Get()
+        [HttpPost]
+        public async Task<IActionResult> Post()
         {
-            return Ok(await _weatherForecastService.GetForecast());
-        }*/
+            await _weatherForecastService.GetForecastData("London");
+            return Ok("Mensagem encaminhada com sucesso");
+        }
     }
 }

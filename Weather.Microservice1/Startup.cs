@@ -1,19 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Weather.Microservice1.Consumers;
 using Weather.Microservice1.Data;
 using Weather.Microservice1.Repositories;
-using Weather.Microservice1.Services;
 
 namespace Weather.Microservice1
 {
@@ -29,9 +23,15 @@ namespace Weather.Microservice1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var rabbitMQConfigurations = new RabbitMQConfigurations();
+            new ConfigureFromConfigurationOptions<RabbitMQConfigurations>(
+                Configuration.GetSection("RabbitMQConfigurations"))
+                    .Configure(rabbitMQConfigurations);
+            services.AddSingleton(rabbitMQConfigurations);
+
             services.AddScoped<IForecastDataContext, ForecastDataContext>();
             services.AddScoped<IForecastDataRepository, ForecastDataRepository>();
-            services.AddScoped<IMessageBusService, MessageBusService>();
+            services.AddHostedService<ProcessForecastData>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

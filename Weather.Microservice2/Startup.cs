@@ -6,11 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weather.Microservice2.Consumers;
 using Wheater.Microservice2.Services;
 
 namespace Wheater.Microservice2
@@ -27,7 +29,14 @@ namespace Wheater.Microservice2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var rabbitMQConfigurations = new RabbitMQConfigurations();
+            new ConfigureFromConfigurationOptions<RabbitMQConfigurations>(
+                Configuration.GetSection("RabbitMQConfigurations"))
+                    .Configure(rabbitMQConfigurations);
+            services.AddSingleton(rabbitMQConfigurations);
+
             services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            services.AddHostedService<ProcessForecastConsumer>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -4,6 +4,7 @@ namespace Wheater.Microservice2.Services
 {
     public interface IWeatherForecastService
     {
-        Task<string> GetForecast(string latitude, string longitute);
+        Task<string> GetForecastData(string cityName);
+        Task SendForecastData(string cityName);
     }
 }

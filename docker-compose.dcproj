@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>7b0b899c-bf46-4fe4-8066-228b6475ee0a</ProjectGuid>
+    <ProjectGuid>fbef499b-495a-409f-8adb-2df96c8b0ce7</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>weather.microservice1</DockerServiceName>
